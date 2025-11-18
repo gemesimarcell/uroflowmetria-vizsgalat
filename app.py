@@ -8,10 +8,18 @@ st.set_page_config(page_title="Urológiai Nomogram", layout="wide")
 
 # --- STÍLUS (CSS) ---
 st.markdown("""
-    <style>
+<style>
     .main { background-color: #F5F5F7; }
     h1, h2, h3 { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1D1D1F; }
-    .stButton>button { width: 100%; border-radius: 8px; height: 3em; background-color: #0071E3; color: white; border: none; font-weight: bold; }
+    .stButton>button { 
+        width: 100%; 
+        border-radius: 8px; 
+        height: 3em; 
+        background-color: #0071E3; 
+        color: white; 
+        border: none; 
+        font-weight: bold; 
+    }
     .stButton>button:hover { background-color: #005BB5; color: white; }
     .result-box {
         padding: 20px;
@@ -21,9 +29,19 @@ st.markdown("""
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         margin-bottom: 20px;
     }
-    .metric-label { font-size: 0.9em; color: #666; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .metric-value { font-size: 1.3em; font-weight: bold; color: #333; }
-    </style>
+    .metric-label { 
+        font-size: 0.9em; 
+        color: #666; 
+        margin-bottom: 5px; 
+        text-transform: uppercase; 
+        letter-spacing: 0.5px; 
+    }
+    .metric-value { 
+        font-size: 1.3em; 
+        font-weight: bold; 
+        color: #333; 
+    }
+</style>
 """, unsafe_allow_html=True)
 
 # --- CÍMSOR ÉS JOGI NYILATKOZAT ---
@@ -68,14 +86,14 @@ def liverpool_nomogram():
     if vol > 0:
         # Percentilisek meghatározása
         def get_band_text(val, limits):
-            if val < limits[0]: return "< 5. percentilis (Kóros)", "error"
-            if val < limits[1]: return "5-10. percentilis (Alacsony)", "warning"
-            if val < limits[2]: return "10-25. percentilis (Mérsékelt)", "info"
-            if val < limits[3]: return "25-50. percentilis (Átlagos)", "success"
-            if val < limits[4]: return "50-75. percentilis (Jó)", "success"
-            if val < limits[5]: return "75-90. percentilis (Kiváló)", "success"
-            if val < limits[6]: return "90-95. percentilis (Kiemelkedő)", "success"
-            return "> 95. percentilis (Magas)", "success"
+            if val < limits[0]: return "< 5. percentilis (Kóros)", "#d32f2f" # Piros
+            if val < limits[1]: return "5-10. percentilis (Alacsony)", "#f57c00" # Narancs
+            if val < limits[2]: return "10-25. percentilis (Mérsékelt)", "#fbc02d" # Sárga
+            if val < limits[3]: return "25-50. percentilis (Átlagos)", "#388e3c" # Zöld
+            if val < limits[4]: return "50-75. percentilis (Jó)", "#388e3c"
+            if val < limits[5]: return "75-90. percentilis (Kiváló)", "#388e3c"
+            if val < limits[6]: return "90-95. percentilis (Kiemelkedő)", "#1976d2" # Kék
+            return "> 95. percentilis (Magas)", "#1976d2"
 
         # Liverpool képlet: Q / sqrt(V)
         qmax_limits = [0.75, 0.95, 1.20, 1.50, 1.80, 2.10, 2.35]
@@ -92,10 +110,10 @@ def liverpool_nomogram():
             st.markdown(f"""
             <div class="result-box">
                 <div class="metric-label">Qmax Eredmény</div>
-                <div class="metric-value" style="color: {'#d32f2f' if col_max=='error' else '#f57c00' if col_max=='warning' else '#2e7d32'};">{txt_max}</div>
+                <div class="metric-value" style="color: {col_max};">{txt_max}</div>
                 <br>
                 <div class="metric-label">Qave Eredmény</div>
-                <div class="metric-value" style="color: {'#d32f2f' if col_ave=='error' else '#f57c00' if col_ave=='warning' else '#2e7d32'};">{txt_ave}</div>
+                <div class="metric-value" style="color: {col_ave};">{txt_ave}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -111,7 +129,7 @@ def liverpool_nomogram():
             for p, factor in zip(percentiles, qmax_limits):
                 y_vals = factor * np.sqrt(x_vals)
                 ax1.plot(x_vals, y_vals, label=f'{p}. pc', alpha=0.6, linewidth=1)
-                ax1.text(605, factor * np.sqrt(600), f'{p}%', fontsize=8)
+                if p in [5, 50, 95]: ax1.text(605, factor * np.sqrt(600), f'{p}%', fontsize=8)
             plot_patient_point(ax1, vol, qmax)
             st.pyplot(fig1)
 
@@ -120,7 +138,7 @@ def liverpool_nomogram():
             for p, factor in zip(percentiles, qave_limits):
                 y_vals = factor * np.sqrt(x_vals)
                 ax2.plot(x_vals, y_vals, label=f'{p}. pc', alpha=0.6, linewidth=1)
-                ax2.text(605, factor * np.sqrt(600), f'{p}%', fontsize=8)
+                if p in [5, 50, 95]: ax2.text(605, factor * np.sqrt(600), f'{p}%', fontsize=8)
             plot_patient_point(ax2, vol, qave)
             st.pyplot(fig2)
 
@@ -156,14 +174,14 @@ def miskolc_nomogram():
             sd = (L95 - L5) / 3.29
             z = (val - mean) / sd
             
-            if z < -1.645: return "< 5. percentilis (Kóros)", "error"
-            if z < -1.28: return "5-10. percentilis (Alacsony)", "warning"
-            if z < -0.675: return "10-25. percentilis (Mérsékelt)", "info"
-            if z < 0: return "25-50. percentilis (Átlagos)", "success"
-            if z < 0.675: return "50-75. percentilis (Jó)", "success"
-            if z < 1.28: return "75-90. percentilis (Kiváló)", "success"
-            if z < 1.645: return "90-95. percentilis (Kiemelkedő)", "success"
-            return "> 95. percentilis (Magas)", "success"
+            if z < -1.645: return "< 5. percentilis (Kóros)", "#d32f2f"
+            if z < -1.28: return "5-10. percentilis (Alacsony)", "#f57c00"
+            if z < -0.675: return "10-25. percentilis (Mérsékelt)", "#fbc02d"
+            if z < 0: return "25-50. percentilis (Átlagos)", "#388e3c"
+            if z < 0.675: return "50-75. percentilis (Jó)", "#388e3c"
+            if z < 1.28: return "75-90. percentilis (Kiváló)", "#388e3c"
+            if z < 1.645: return "90-95. percentilis (Kiemelkedő)", "#1976d2"
+            return "> 95. percentilis (Magas)", "#1976d2"
 
         txt_max, col_max = calc_miskolc_percentile(qmax, *p_curr['max'])
         txt_ave, col_ave = calc_miskolc_percentile(qave, *p_curr['ave'])
@@ -172,10 +190,10 @@ def miskolc_nomogram():
             st.markdown(f"""
             <div class="result-box">
                 <div class="metric-label">Qmax Becslés</div>
-                <div class="metric-value" style="color: {'#d32f2f' if col_max=='error' else '#f57c00' if col_max=='warning' else '#2e7d32'};">{txt_max}</div>
+                <div class="metric-value" style="color: {col_max};">{txt_max}</div>
                 <br>
                 <div class="metric-label">Qave Becslés</div>
-                <div class="metric-value" style="color: {'#d32f2f' if col_ave=='error' else '#f57c00' if col_ave=='warning' else '#2e7d32'};">{txt_ave}</div>
+                <div class="metric-value" style="color: {col_ave};">{txt_ave}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -200,6 +218,7 @@ def miskolc_nomogram():
                 B_z = mean_B + z * sd_B
                 y_vals = A_z * ln_x + B_z
                 ax.plot(x_vals, y_vals, label=f'{lab}. pc', linewidth=1, alpha=0.7)
+                if lab in [5, 50, 95]: ax.text(605, y_vals[-1], f'{lab}%', fontsize=8)
             plot_patient_point(ax, vol, patient_y)
 
         with mg1:
@@ -239,12 +258,12 @@ def toguri_nomogram():
         def evaluate_toguri(val, v_in, table):
             row = next(r for r in table if v_in < r[0])
             thresholds = sorted(row[1:]) 
-            if val < thresholds[0]: return "< 5. percentilis (Kóros)", "error"
-            if val < thresholds[1]: return "5-10. percentilis (Nagyon Alacsony)", "warning"
-            if val < thresholds[2]: return "10-15. percentilis (Alacsony)", "warning"
-            if val < thresholds[3]: return "15-20. percentilis (Alacsony)", "warning"
-            if val < thresholds[4]: return "20-25. percentilis (Mérsékelt)", "info"
-            return "> 25. percentilis (Normál)", "success"
+            if val < thresholds[0]: return "< 5. percentilis (Kóros)", "#d32f2f"
+            if val < thresholds[1]: return "5-10. percentilis (Nagyon Alacsony)", "#f57c00"
+            if val < thresholds[2]: return "10-15. percentilis (Alacsony)", "#fbc02d"
+            if val < thresholds[3]: return "15-20. percentilis (Alacsony)", "#fbc02d"
+            if val < thresholds[4]: return "20-25. percentilis (Mérsékelt)", "#388e3c"
+            return "> 25. percentilis (Normál)", "#388e3c"
 
         txt_max, col_max = evaluate_toguri(qmax, vol, current_limits_max)
         txt_ave, col_ave = evaluate_toguri(qave, vol, current_limits_ave)
@@ -253,10 +272,10 @@ def toguri_nomogram():
             st.markdown(f"""
             <div class="result-box">
                 <div class="metric-label">Qmax Szűrés</div>
-                <div class="metric-value" style="color: {'#d32f2f' if col_max=='error' else '#f57c00' if col_max=='warning' else '#2e7d32'};">{txt_max}</div>
+                <div class="metric-value" style="color: {col_max};">{txt_max}</div>
                 <br>
                 <div class="metric-label">Qave Szűrés</div>
-                <div class="metric-value" style="color: {'#d32f2f' if col_ave=='error' else '#f57c00' if col_ave=='warning' else '#2e7d32'};">{txt_ave}</div>
+                <div class="metric-value" style="color: {col_ave};">{txt_ave}</div>
             </div>
             """, unsafe_allow_html=True)
 
