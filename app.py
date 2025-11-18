@@ -112,7 +112,7 @@ def liverpool_nomogram():
                 <div class="metric-label">Qmax Eredmény</div>
                 <div class="metric-value" style="color: {col_max};">{txt_max}</div>
                 <br>
-                <div class="metric-label">Qave Eredmény</div>
+                <div class="metric-label">Qátl Eredmény</div>
                 <div class="metric-value" style="color: {col_ave};">{txt_ave}</div>
             </div>
             """, unsafe_allow_html=True)
@@ -271,10 +271,10 @@ def toguri_nomogram():
         with c3:
             st.markdown(f"""
             <div class="result-box">
-                <div class="metric-label">Qmax</div>
+                <div class="metric-label">Qmax Eredmény</div>
                 <div class="metric-value" style="color: {col_max};">{txt_max}</div>
                 <br>
-                <div class="metric-label">Qave</div>
+                <div class="metric-label">Qátl Eredmény</div>
                 <div class="metric-value" style="color: {col_ave};">{txt_ave}</div>
             </div>
             """, unsafe_allow_html=True)
