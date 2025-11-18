@@ -174,14 +174,14 @@ def miskolc_nomogram():
             sd = (L95 - L5) / 3.29
             z = (val - mean) / sd
             
-            if z < -1.645: return "< 5. percentilis (Kóros)", "#d32f2f"
-            if z < -1.28: return "5-10. percentilis (Alacsony)", "#f57c00"
-            if z < -0.675: return "10-25. percentilis (Mérsékelt)", "#fbc02d"
-            if z < 0: return "25-50. percentilis (Megfelelő)", "#388e3c"
-            if z < 0.675: return "50-75. percentilis (Megfelelő)", "#388e3c"
-            if z < 1.28: return "75-90. percentilis (Megfelelő)", "#388e3c"
-            if z < 1.645: return "90-95. percentilis (Megfelelő)", "#1976d2"
-            return "> 95. percentilis (Magas)", "#1976d2"
+            if z < -1.645: return "< 5 percentilis (Kóros)", "#d32f2f"
+            if z < -1.28: return "5-10 percentilis (Alacsony)", "#f57c00"
+            if z < -0.675: return "10-25 percentilis (Mérsékelt)", "#fbc02d"
+            if z < 0: return "25-50 percentilis (Megfelelő)", "#388e3c"
+            if z < 0.675: return "50-75 percentilis (Megfelelő)", "#388e3c"
+            if z < 1.28: return "75-90 percentilis (Megfelelő)", "#388e3c"
+            if z < 1.645: return "90-95 percentilis (Megfelelő)", "#1976d2"
+            return "> 95 percentilis (Magas)", "#1976d2"
 
         txt_max, col_max = calc_miskolc_percentile(qmax, *p_curr['max'])
         txt_ave, col_ave = calc_miskolc_percentile(qave, *p_curr['ave'])
