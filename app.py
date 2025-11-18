@@ -49,7 +49,7 @@ st.title("Uroflow kiértékelés")
 
 st.warning("""
 Jogi Nyilatkozat: Ez az alkalmazás kizárólag tájékoztató jellegű. 
-A számítások a szakirodalomban publikált nomogramokon alapulnak (Liverpool, Miskolc, Toguri), de a klinikai döntéshozatal minden esetben a vizsgáló személy felelőssége.
+A számítások szakirodalomban publikált nomogramokon alapulnak (Liverpool, Miskolc, Toguri), de a klinikai döntéshozatal minden esetben a vizsgáló személy felelőssége.
 A fejlesztő nem vállal felelősséget az eredmények alapján hozott döntésekért.
 """)
 
