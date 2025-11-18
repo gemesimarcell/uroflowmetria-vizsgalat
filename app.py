@@ -44,7 +44,7 @@ def plot_patient_point(ax, x, y):
 # --- 1. LIVERPOOL NOMOGRAM LOGIKA ---
 def liverpool_nomogram():
     st.header("Liverpool Nomogram")
-    st.markdown("Férfiak (50 év alatt). Általános áramlásvizsgálat.")
+    st.markdown("Férfiak 50 év alatti áramlásvizsgálata.")
 
     c1, c2, c3 = st.columns([1, 1, 2])
     
@@ -127,8 +127,8 @@ def liverpool_nomogram():
 
 # --- 2. MISKOLC NOMOGRAM LOGIKA ---
 def miskolc_nomogram():
-    st.header("Miskolci Nomogram (Fiúk)")
-    st.markdown("Fiú gyermekek. Teljes tartományú percentilis becslés.")
+    st.header("Miskolci Nomogram")
+    st.markdown("Fiú gyermekek")
 
     c1, c2, c3 = st.columns([1, 1, 2])
     
@@ -358,3 +358,13 @@ with tabs[1]:
     miskolc_nomogram()
 with tabs[2]:
     toguri_nomogram()
+
+
+
+st.markdown("---")
+st.markdown(f"""
+<div style="text-align: center; color: gray; font-size: 0.8em;">
+    © 2025 <b>Gémesi Marcell</b> | Minden jog fenntartva.<br>
+    A szoftver szellemi tulajdona a készítőt illeti.
+</div>
+""", unsafe_allow_html=True)
