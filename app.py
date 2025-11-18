@@ -4,34 +4,34 @@ import numpy as np
 import math
 
 # --- 1. OLDAL BEÁLLÍTÁSOK ---
-st.set_page_config(page_title="Urológiai Nomogram", layout="wide", page_icon="🏥")
+st.set_page_config(page_title="Urológiai Nomogram", layout="wide")
 
 # --- STÍLUS (CSS) ---
 st.markdown("""
     <style>
     .main { background-color: #F5F5F7; }
     h1, h2, h3 { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1D1D1F; }
-    .stButton>button { width: 100%; border-radius: 12px; height: 3em; background-color: #0071E3; color: white; border: none; font-weight: bold; }
+    .stButton>button { width: 100%; border-radius: 8px; height: 3em; background-color: #0071E3; color: white; border: none; font-weight: bold; }
     .stButton>button:hover { background-color: #005BB5; color: white; }
     .result-box {
         padding: 20px;
         background-color: white;
-        border-radius: 15px;
+        border-radius: 10px;
         border: 1px solid #E5E5EA;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         margin-bottom: 20px;
     }
-    .metric-label { font-size: 0.9em; color: #86868B; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .metric-value { font-size: 1.4em; font-weight: bold; color: #1D1D1F; }
+    .metric-label { font-size: 0.9em; color: #666; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .metric-value { font-size: 1.3em; font-weight: bold; color: #333; }
     </style>
 """, unsafe_allow_html=True)
 
 # --- CÍMSOR ÉS JOGI NYILATKOZAT ---
-st.title("🏥 Urológiai Diagnosztika")
+st.title("Urológiai Diagnosztika")
 
 st.warning("""
-**Jogi Nyilatkozat:** Ez az alkalmazás kizárólag tájékoztató jellegű. 
-A számítások a szakirodalomban publikált nomogramokon alapulnak (Liverpool, Miskolc, Toguri), de a klinikai döntéshozatal minden esetben a vizsgálatot végző személy felelőssége.
+Jogi Nyilatkozat: Ez az alkalmazás kizárólag tájékoztató jellegű. 
+A számítások a szakirodalomban publikált nomogramokon alapulnak (Liverpool, Miskolc, Toguri), de a klinikai döntéshozatal minden esetben a vizsgáló személy felelőssége.
 A fejlesztő nem vállal felelősséget az eredmények alapján hozott döntésekért.
 """)
 
@@ -54,7 +54,7 @@ def plot_patient_point(ax, x, y):
 
 # --- 1. LIVERPOOL NOMOGRAM LOGIKA ---
 def liverpool_nomogram():
-    st.info("💡 **Férfiak (50 év alatt).** Általános áramlásvizsgálat (Haylen et al.).")
+    st.info("Férfiak (50 év alatt). Általános áramlásvizsgálat (Haylen et al.).")
 
     c1, c2, c3 = st.columns([1, 1, 2])
     
@@ -126,7 +126,7 @@ def liverpool_nomogram():
 
 # --- 2. MISKOLC NOMOGRAM LOGIKA ---
 def miskolc_nomogram():
-    st.info("💡 **Fiú gyermekek.** Részletes percentilis becslés (Szabó & Fegyverneki, 1995).")
+    st.info("Fiú gyermekek. Részletes percentilis becslés (Szabó & Fegyverneki, 1995).")
 
     c1, c2, c3 = st.columns([1, 1, 2])
     
@@ -214,7 +214,7 @@ def miskolc_nomogram():
 
 # --- 3. TOGURI NOMOGRAM LOGIKA ---
 def toguri_nomogram():
-    st.warning("⚠️ **Figyelem:** Ez a nomogram kifejezetten az **alacsony áramlás (obstrukció)** szűrésére készült (Toguri et al., 1982).")
+    st.warning("Figyelem: Ez a nomogram kifejezetten az alacsony áramlás (obstrukció) szűrésére készült (Toguri et al., 1982).")
 
     c1, c2, c3 = st.columns([1, 1, 2])
     
