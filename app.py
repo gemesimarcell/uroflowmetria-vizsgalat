@@ -53,7 +53,7 @@ A számítások a szakirodalomban publikált nomogramokon alapulnak (Liverpool, 
 A fejlesztő nem vállal felelősséget az eredmények alapján hozott döntésekért.
 """)
 
-st.markdown("### Unified Nomogram App")
+st.markdown("")
 
 # --- SEGÉDFÜGGVÉNYEK GRAFIKONHOZ ---
 def create_plot(title, xlabel, ylabel, x_max, y_max):
@@ -80,19 +80,19 @@ def liverpool_nomogram():
         vol = st.number_input("Ürített térfogat (ml)", min_value=0.0, value=400.0, step=10.0, key="l_v")
     with c2:
         qmax = st.number_input("Maximális áramlás (Qmax - ml/s)", min_value=0.0, value=25.0, step=1.0, key="l_qm")
-        qave = st.number_input("Átlagos áramlás (Qave - ml/s)", min_value=0.0, value=15.0, step=1.0, key="l_qa")
+        qave = st.number_input("Átlagos áramlás (Qátl - ml/s)", min_value=0.0, value=15.0, step=1.0, key="l_qa")
 
     # Számítás
     if vol > 0:
         # Percentilisek meghatározása
         def get_band_text(val, limits):
-            if val < limits[0]: return "< 5. percentilis (Kóros)", "#d32f2f" # Piros
-            if val < limits[1]: return "5-10. percentilis (Alacsony)", "#f57c00" # Narancs
-            if val < limits[2]: return "10-25. percentilis (Mérsékelt)", "#fbc02d" # Sárga
-            if val < limits[3]: return "25-50. percentilis (Átlagos)", "#388e3c" # Zöld
-            if val < limits[4]: return "50-75. percentilis (Jó)", "#388e3c"
-            if val < limits[5]: return "75-90. percentilis (Kiváló)", "#388e3c"
-            if val < limits[6]: return "90-95. percentilis (Kiemelkedő)", "#1976d2" # Kék
+            if val < limits[0]: return "< 5 percentilis (Kóros)", "#d32f2f" # Piros
+            if val < limits[1]: return "5-10 percentilis (Alacsony)", "#f57c00" # Narancs
+            if val < limits[2]: return "10-25 percentilis (Mérsékelt)", "#fbc02d" # Sárga
+            if val < limits[3]: return "25-50 percentilis (Megfelelő)", "#388e3c" # Zöld
+            if val < limits[4]: return "50-75 percentilis (Megfelelő)", "#388e3c"
+            if val < limits[5]: return "75-90 percentilis (Megfelelő)", "#388e3c"
+            if val < limits[6]: return "90-95 percentilis (Megfelelő)", "#1976d2" # Kék
             return "> 95. percentilis (Magas)", "#1976d2"
 
         # Liverpool képlet: Q / sqrt(V)
@@ -124,7 +124,7 @@ def liverpool_nomogram():
         x_vals = np.linspace(50, 600, 100)
         
         with g1:
-            fig1, ax1 = create_plot("Liverpool Qmax Nomogram", "Térfogat (ml)", "Qmax (ml/s)", 600, 40)
+            fig1, ax1 = create_plot("Liverpool Qmax nomogram", "Térfogat (ml)", "Qmax (ml/s)", 600, 40)
             percentiles = [5, 10, 25, 50, 75, 90, 95]
             for p, factor in zip(percentiles, qmax_limits):
                 y_vals = factor * np.sqrt(x_vals)
@@ -134,7 +134,7 @@ def liverpool_nomogram():
             st.pyplot(fig1)
 
         with g2:
-            fig2, ax2 = create_plot("Liverpool Qave Nomogram", "Térfogat (ml)", "Qave (ml/s)", 600, 25)
+            fig2, ax2 = create_plot("Liverpool Qátl nomogram", "Térfogat (ml)", "Qátl (ml/s)", 600, 25)
             for p, factor in zip(percentiles, qave_limits):
                 y_vals = factor * np.sqrt(x_vals)
                 ax2.plot(x_vals, y_vals, label=f'{p}. pc', alpha=0.6, linewidth=1)
@@ -154,7 +154,7 @@ def miskolc_nomogram():
                                format_func=lambda x: {1:"< 0.92 m² (Kicsi)", 2:"0.92 - 1.42 m² (Közepes)", 3:"> 1.42 m² (Nagy)"}[x])
     with c2:
         qmax = st.number_input("Maximális áramlás (Qmax)", min_value=0.0, value=18.0, step=1.0, key="m_qm")
-        qave = st.number_input("Átlagos áramlás (Qave)", min_value=0.0, value=10.0, step=1.0, key="m_qa")
+        qave = st.number_input("Átlagos áramlás (Qátl)", min_value=0.0, value=10.0, step=1.0, key="m_qa")
 
     if vol > 0:
         ln_v = math.log(vol + 1)
@@ -177,10 +177,10 @@ def miskolc_nomogram():
             if z < -1.645: return "< 5. percentilis (Kóros)", "#d32f2f"
             if z < -1.28: return "5-10. percentilis (Alacsony)", "#f57c00"
             if z < -0.675: return "10-25. percentilis (Mérsékelt)", "#fbc02d"
-            if z < 0: return "25-50. percentilis (Átlagos)", "#388e3c"
-            if z < 0.675: return "50-75. percentilis (Jó)", "#388e3c"
-            if z < 1.28: return "75-90. percentilis (Kiváló)", "#388e3c"
-            if z < 1.645: return "90-95. percentilis (Kiemelkedő)", "#1976d2"
+            if z < 0: return "25-50. percentilis (Megfelelő)", "#388e3c"
+            if z < 0.675: return "50-75. percentilis (Megfelelő)", "#388e3c"
+            if z < 1.28: return "75-90. percentilis (Megfelelő)", "#388e3c"
+            if z < 1.645: return "90-95. percentilis (Megfelelő)", "#1976d2"
             return "> 95. percentilis (Magas)", "#1976d2"
 
         txt_max, col_max = calc_miskolc_percentile(qmax, *p_curr['max'])
@@ -189,16 +189,16 @@ def miskolc_nomogram():
         with c3:
             st.markdown(f"""
             <div class="result-box">
-                <div class="metric-label">Qmax Becslés</div>
+                <div class="metric-label">Qmax eredmény</div>
                 <div class="metric-value" style="color: {col_max};">{txt_max}</div>
                 <br>
-                <div class="metric-label">Qave Becslés</div>
+                <div class="metric-label">Qátl eredmény</div>
                 <div class="metric-value" style="color: {col_ave};">{txt_ave}</div>
             </div>
             """, unsafe_allow_html=True)
 
         # GRAFIKON
-        st.subheader("Miskolc görbék")
+        st.subheader("Grafikus ábrázolás")
         mg1, mg2 = st.columns(2)
         x_vals = np.linspace(20, 600, 100)
         ln_x = np.log(x_vals + 1)
@@ -227,8 +227,8 @@ def miskolc_nomogram():
             st.pyplot(figm1)
 
         with mg2:
-            figm2, axm2 = create_plot("Qave (Fiú)", "Térfogat (ml)", "ml/s", 600, 30)
-            plot_miskolc_curves(axm2, "Qave Nomogram", *p_curr['ave'], qave, 30)
+            figm2, axm2 = create_plot("Qátl (Fiú)", "Térfogat (ml)", "ml/s", 600, 30)
+            plot_miskolc_curves(axm2, "Qátl Nomogram", *p_curr['ave'], qave, 30)
             st.pyplot(figm2)
 
 # --- 3. TOGURI NOMOGRAM LOGIKA ---
@@ -243,7 +243,7 @@ def toguri_nomogram():
                                format_func=lambda x: {0:"< 1.1 m² (Kicsi)", 1:"≥ 1.1 m² (Nagy)"}[x])
     with c2:
         qmax = st.number_input("Maximális áramlás (Qmax)", min_value=0.0, value=12.0, step=1.0, key="t_qm")
-        qave = st.number_input("Átlagos áramlás (Qave)", min_value=0.0, value=8.0, step=1.0, key="t_qa")
+        qave = st.number_input("Átlagos áramlás (Qátl)", min_value=0.0, value=8.0, step=1.0, key="t_qa")
 
     if vol > 0:
         # Toguri Adatok
@@ -258,11 +258,11 @@ def toguri_nomogram():
         def evaluate_toguri(val, v_in, table):
             row = next(r for r in table if v_in < r[0])
             thresholds = sorted(row[1:]) 
-            if val < thresholds[0]: return "< 5. percentilis (Kóros)", "#d32f2f"
-            if val < thresholds[1]: return "5-10. percentilis (Nagyon Alacsony)", "#f57c00"
-            if val < thresholds[2]: return "10-15. percentilis (Alacsony)", "#fbc02d"
-            if val < thresholds[3]: return "15-20. percentilis (Alacsony)", "#fbc02d"
-            if val < thresholds[4]: return "20-25. percentilis (Mérsékelt)", "#388e3c"
+            if val < thresholds[0]: return "< 5 percentilis (Kóros)", "#d32f2f"
+            if val < thresholds[1]: return "5-10 percentilis (Alacsony)", "#f57c00"
+            if val < thresholds[2]: return "10-15 percentilis (Megfelelő)", "#fbc02d"
+            if val < thresholds[3]: return "15-20 percentilis (Megfelelő)", "#fbc02d"
+            if val < thresholds[4]: return "20-25 percentilis (Megfelelő)", "#388e3c"
             return "> 25. percentilis (Normál)", "#388e3c"
 
         txt_max, col_max = evaluate_toguri(qmax, vol, current_limits_max)
@@ -271,16 +271,16 @@ def toguri_nomogram():
         with c3:
             st.markdown(f"""
             <div class="result-box">
-                <div class="metric-label">Qmax Szűrés</div>
+                <div class="metric-label">Qmax</div>
                 <div class="metric-value" style="color: {col_max};">{txt_max}</div>
                 <br>
-                <div class="metric-label">Qave Szűrés</div>
+                <div class="metric-label">Qave</div>
                 <div class="metric-value" style="color: {col_ave};">{txt_ave}</div>
             </div>
             """, unsafe_allow_html=True)
 
         # GRAFIKON
-        st.subheader("Alsó tartomány grafikon (Szűrés)")
+        st.subheader("Grafikus ábrázolás")
         tg1, tg2 = st.columns(2)
 
         def plot_toguri_steps(ax, table, patient_y, y_top):
