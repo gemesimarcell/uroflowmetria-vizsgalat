@@ -4,7 +4,7 @@ import numpy as np
 import math
 
 # --- 1. OLDAL BEÁLLÍTÁSOK ---
-st.set_page_config(page_title="Urológiai Nomogram", layout="wide")
+st.set_page_config(page_title="Uroflow kiértékelés", layout="wide")
 
 # --- STÍLUS (CSS) ---
 st.markdown("""
@@ -45,7 +45,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- CÍMSOR ÉS JOGI NYILATKOZAT ---
-st.title("Urológiai Diagnosztika")
+st.title("Uroflow kiértékelés")
 
 st.warning("""
 Jogi Nyilatkozat: Ez az alkalmazás kizárólag tájékoztató jellegű. 
@@ -72,7 +72,7 @@ def plot_patient_point(ax, x, y):
 
 # --- 1. LIVERPOOL NOMOGRAM LOGIKA ---
 def liverpool_nomogram():
-    st.info("Férfiak (50 év alatt). Általános áramlásvizsgálat (Haylen et al.).")
+    st.info("Felnőtt férfiak (50 év alatt) áramlásvizsgálata")
 
     c1, c2, c3 = st.columns([1, 1, 2])
     
@@ -144,7 +144,7 @@ def liverpool_nomogram():
 
 # --- 2. MISKOLC NOMOGRAM LOGIKA ---
 def miskolc_nomogram():
-    st.info("Fiú gyermekek. Részletes percentilis becslés (Szabó & Fegyverneki, 1995).")
+    st.info("Fiú gyermekek áramlásvizsgálata")
 
     c1, c2, c3 = st.columns([1, 1, 2])
     
@@ -233,7 +233,7 @@ def miskolc_nomogram():
 
 # --- 3. TOGURI NOMOGRAM LOGIKA ---
 def toguri_nomogram():
-    st.warning("Figyelem: Ez a nomogram kifejezetten az alacsony áramlás (obstrukció) szűrésére készült (Toguri et al., 1982).")
+    st.warning("Fiú gyermekek áramlásvizsgálata")
 
     c1, c2, c3 = st.columns([1, 1, 2])
     
