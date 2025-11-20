@@ -45,7 +45,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- CÍMSOR ÉS JOGI NYILATKOZAT ---
-st.title("Uroflow kiértékelés")
+st.title("Uroflowmetria kiértékelés")
 
 st.warning("""
 Jogi Nyilatkozat: Ez az alkalmazás kizárólag tájékoztató jellegű. 
