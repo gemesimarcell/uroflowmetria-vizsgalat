@@ -48,9 +48,7 @@ st.markdown("""
 st.title("Uroflowmetria kiértékelés")
 
 st.warning("""
-Jogi Nyilatkozat: Ez az alkalmazás kizárólag tájékoztató jellegű. 
-A számítások szakirodalomban publikált nomogramokon alapulnak (Liverpool, Miskolc, Toguri), de a klinikai döntéshozatal minden esetben a vizsgáló személy felelőssége.
-A fejlesztő nem vállal felelősséget az eredmények alapján hozott döntésekért.
+Jogi Nyilatkozat: A számítások szakirodalomban publikált nomogramokon alapulnak (Liverpool, Miskolc, Toguri), de a klinikai döntéshozatal minden esetben a vizsgáló személy felelőssége.
 """)
 
 st.markdown("")
