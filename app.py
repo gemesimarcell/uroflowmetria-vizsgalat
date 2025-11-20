@@ -325,6 +325,5 @@ st.markdown("---")
 st.markdown(f"""
 <div style="text-align: center; color: gray; font-size: 0.8em;">
     © 2025 <b>Gémesi Marcell</b> | Minden jog fenntartva.<br>
-    A szoftver szellemi tulajdona a készítőt illeti.
 </div>
 """, unsafe_allow_html=True)
